@@ -7,6 +7,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -20,8 +21,8 @@ public class ActivityUsersController {
     }
 
     @GetMapping
-    public List<String> showUsers() {
-        Pageable pageable = PageRequest.of(0, 10);
+    public List<String> showUsers(@RequestParam Integer page) {
+        Pageable pageable = PageRequest.of(page, 10);
         return reviewService.showActivityUsers(pageable);
     }
 }
