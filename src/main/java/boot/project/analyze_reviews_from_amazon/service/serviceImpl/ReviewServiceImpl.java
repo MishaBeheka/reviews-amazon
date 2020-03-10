@@ -26,4 +26,9 @@ public class ReviewServiceImpl implements ReviewService {
     public List<String> showActivityUsers(Pageable pageable) {
         return reviewRepository.showActivityUsers(pageable);
     }
+
+    @Override
+    public List<String> showTheMostPopularGoods(Pageable pageable) {
+        return reviewRepository.showTheMostPopularGoods(pageable);
+    }
 }

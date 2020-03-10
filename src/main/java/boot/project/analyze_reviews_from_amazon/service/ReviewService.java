@@ -9,4 +9,6 @@ public interface ReviewService {
     void saveAll(Iterable<Review> iterable);
 
     List<String> showActivityUsers(Pageable pageable);
+
+    List<String> showTheMostPopularGoods(Pageable pageable);
 }
