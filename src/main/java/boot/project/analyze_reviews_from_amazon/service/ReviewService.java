@@ -12,5 +12,5 @@ public interface ReviewService {
 
     List<String> showTheMostPopularGoods(Pageable pageable);
 
-    List<String> getAllReviews();
+    List<String> getMostPopularWords();
 }
