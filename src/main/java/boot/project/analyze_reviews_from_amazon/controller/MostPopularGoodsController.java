@@ -21,8 +21,8 @@ public class MostPopularGoodsController {
     }
 
     @GetMapping
-    public List<String> showPopularGoods(@RequestParam Integer page) {
-        Pageable pageable = PageRequest.of(page, 10);
+    public List<String> showPopularGoods(@RequestParam Integer page, @RequestParam Integer size) {
+        Pageable pageable = PageRequest.of(page, size);
         return reviewService.showTheMostPopularGoods(pageable);
     }
 }
