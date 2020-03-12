@@ -17,4 +17,7 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     @Query(value = "SELECT p.productId, COUNT(p.productId) AS popular FROM Review p "
             + "GROUP BY p.productId ORDER BY popular DESC")
     List<String> showTheMostPopularGoods(Pageable pageable);
+
+    @Query(value = "SELECT r.text FROM Review r")
+    List<String> getAllReviews();
 }

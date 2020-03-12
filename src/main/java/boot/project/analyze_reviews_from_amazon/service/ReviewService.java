@@ -11,4 +11,6 @@ public interface ReviewService {
     List<String> showActivityUsers(Pageable pageable);
 
     List<String> showTheMostPopularGoods(Pageable pageable);
+
+    List<String> getAllReviews();
 }
