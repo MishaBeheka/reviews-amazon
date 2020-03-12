@@ -21,8 +21,8 @@ public class ActivityUsersController {
     }
 
     @GetMapping
-    public List<String> showUsers(@RequestParam Integer page) {
-        Pageable pageable = PageRequest.of(page, 10);
+    public List<String> showUsers(@RequestParam Integer page, @RequestParam Integer size) {
+        Pageable pageable = PageRequest.of(page, size);
         return reviewService.showActivityUsers(pageable);
     }
 }
