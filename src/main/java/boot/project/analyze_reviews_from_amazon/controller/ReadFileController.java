@@ -31,7 +31,7 @@ public class ReadFileController {
     public void readFile() {
         List<Review> reviews = new ArrayList<>();
         try {
-            Reader reader = new FileReader("D:\\DB AMAZON\\Reviews.csv");
+            Reader reader = new FileReader("E:\\My projects\\Reviews.csv");
             Iterable<CSVRecord> records = CSVFormat.DEFAULT
                     .withFirstRecordAsHeader().parse(reader);
             for (CSVRecord record : records) {
