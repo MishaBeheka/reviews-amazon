@@ -10,6 +10,7 @@ import javax.annotation.PostConstruct;
 
 import boot.project.analyze_reviews_from_amazon.entity.Review;
 import boot.project.analyze_reviews_from_amazon.service.serviceImpl.ReviewServiceImpl;
+import boot.project.analyze_reviews_from_amazon.util.FileUtils;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.logging.log4j.LogManager;
@@ -31,7 +32,7 @@ public class ReadFileController {
     public void readFile() {
         List<Review> reviews = new ArrayList<>();
         try {
-            Reader reader = new FileReader("E:\\My projects\\Reviews.csv");
+            Reader reader = new FileReader(FileUtils.getFileFromResources());
             Iterable<CSVRecord> records = CSVFormat.DEFAULT
                     .withFirstRecordAsHeader().parse(reader);
             for (CSVRecord record : records) {
