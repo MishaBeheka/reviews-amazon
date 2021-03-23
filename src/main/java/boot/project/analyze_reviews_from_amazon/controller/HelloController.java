@@ -1,15 +1,22 @@
 package boot.project.analyze_reviews_from_amazon.controller;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-@RequestMapping("/")
+@Controller
 public class HelloController {
+    @GetMapping(value = "/")
+    public String showFirstPage() {
+        return "index";
+    }
 
-    @GetMapping
-    public String hello() {
-        return "Hello from Amazon";
+    @GetMapping(value = "/header")
+    public String showHeader() {
+        return "header";
+    }
+
+    @GetMapping(value = "/footer")
+    public String showFooter() {
+        return "footer";
     }
 }
