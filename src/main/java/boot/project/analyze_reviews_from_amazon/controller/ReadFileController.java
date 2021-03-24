@@ -29,10 +29,10 @@ public class ReadFileController {
     }
 
     @PostConstruct
-    public void readFile() {
+    public void readFileReviews() {
         List<Review> reviews = new ArrayList<>();
         try {
-            Reader reader = new FileReader(FileUtils.getFileFromResources());
+            Reader reader = new FileReader(FileUtils.getFileFromLocalResources());
             Iterable<CSVRecord> records = CSVFormat.DEFAULT
                     .withFirstRecordAsHeader().parse(reader);
             for (CSVRecord record : records) {
