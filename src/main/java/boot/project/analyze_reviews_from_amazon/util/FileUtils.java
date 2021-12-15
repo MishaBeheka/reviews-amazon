@@ -31,7 +31,7 @@ public class FileUtils {
         if (!new File(PATH_TO_IMAGE_FILE_AMAZON_1).exists() &&
                 !new File(PATH_TO_IMAGE_FILE_AMAZON_2).exists() &&
                 !new File(PATH_TO_IMAGE_FILE_AMAZON_3).exists()) {
-            getImagesFromWebResource();
+//            getImagesFromWebResource();
         }
         return new File(PATH_TO_FILE_REVIEWS);
     }
