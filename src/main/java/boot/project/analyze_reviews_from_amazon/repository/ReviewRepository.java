@@ -2,6 +2,7 @@ package boot.project.analyze_reviews_from_amazon.repository;
 
 import java.util.List;
 
+import boot.project.analyze_reviews_from_amazon.dto.TextDto;
 import boot.project.analyze_reviews_from_amazon.entity.Review;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,4 +21,7 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     @Query(value = "SELECT r.text FROM Review r")
     List<String> getAllReviews();
+
+    @Query(value = "SELECT new boot.project.analyze_reviews_from_amazon.dto.TextDto(r.text) FROM Review r")
+    List<TextDto> getAllReviewDto();
 }
