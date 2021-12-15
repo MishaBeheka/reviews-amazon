@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import javax.annotation.PostConstruct;
 
@@ -35,19 +38,27 @@ public class ReadFileController {
             Reader reader = new FileReader(FileUtils.getFileFromLocalResources());
             Iterable<CSVRecord> records = CSVFormat.DEFAULT
                     .withFirstRecordAsHeader().parse(reader);
-            for (CSVRecord record : records) {
-                Review review = new Review();
-                review.setId(Long.parseLong(record.get(0)));
-                review.setProductId(record.get(1));
-                review.setUserId(record.get(2));
-                review.setProfileName(record.get(3));
-                review.setScore(Long.parseLong(record.get(6)));
-                review.setText(record.get(9));
-                reviews.add(review);
-            }
+
+            reviews = StreamSupport.stream(records.spliterator(), false)
+                    .map(this::parseToReview)
+                    .collect(Collectors.toList());
+
         } catch (IOException e) {
             LOGGER.error("Can't read file " + e);
         }
+
         reviewService.saveAll(reviews);
+        LOGGER.info("Review size = " + reviews.size());
+    }
+
+    private Review parseToReview(CSVRecord record) {
+        Review review = new Review();
+        review.setId(Long.parseLong(record.get(0)));
+        review.setProductId(record.get(1));
+        review.setUserId(record.get(2));
+        review.setProfileName(record.get(3));
+        review.setScore(Long.parseLong(record.get(6)));
+        review.setText(record.get(9));
+        return review;
     }
 }
