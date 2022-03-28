@@ -1,22 +1,19 @@
 package boot.project.analyze_reviews_from_amazon.service.serviceImpl;
 
 import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 import boot.project.analyze_reviews_from_amazon.dto.TextDto;
 import boot.project.analyze_reviews_from_amazon.entity.Review;
 import boot.project.analyze_reviews_from_amazon.repository.ReviewRepository;
 import boot.project.analyze_reviews_from_amazon.service.ReviewService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 public class ReviewServiceImpl implements ReviewService {
-
-    private static final Logger LOGGER = LogManager.getLogger(ReviewServiceImpl.class);
 
     private final ReviewRepository reviewRepository;
 
@@ -44,11 +41,10 @@ public class ReviewServiceImpl implements ReviewService {
         Map<String, Long> popularWords = new HashMap<>();
 
 
-        Long start = System.nanoTime();
+        long start = System.nanoTime();
         List<String> reviews = reviewRepository.getAllReviews();
-        LOGGER.info(String.format("Find %s entities!", reviews.size()));
-
-        Long endTime = System.nanoTime();
+        log.info("Find {} entities!", reviews.size());
+        long endTime = System.nanoTime();
         System.out.println("Result time: " + ((endTime - start) / 1000000) + " ms");
 
         start = System.nanoTime();

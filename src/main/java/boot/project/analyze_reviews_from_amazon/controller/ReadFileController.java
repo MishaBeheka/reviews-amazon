@@ -6,7 +6,6 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import javax.annotation.PostConstruct;
@@ -14,16 +13,14 @@ import javax.annotation.PostConstruct;
 import boot.project.analyze_reviews_from_amazon.entity.Review;
 import boot.project.analyze_reviews_from_amazon.service.serviceImpl.ReviewServiceImpl;
 import boot.project.analyze_reviews_from_amazon.util.FileUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
 
-@RestController
+@Controller
+@Slf4j
 public class ReadFileController {
-
-    private static final Logger LOGGER = LogManager.getLogger(ReadFileController.class);
 
     private final ReviewServiceImpl reviewService;
 
@@ -44,11 +41,11 @@ public class ReadFileController {
                     .collect(Collectors.toList());
 
         } catch (IOException e) {
-            LOGGER.error("Can't read file " + e);
+            log.error("Can't read file: " + e);
         }
 
         reviewService.saveAll(reviews);
-        LOGGER.info("Review size = " + reviews.size());
+        log.info("Review size = " + reviews.size());
     }
 
     private Review parseToReview(CSVRecord record) {
