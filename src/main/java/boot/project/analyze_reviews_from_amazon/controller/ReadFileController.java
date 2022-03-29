@@ -11,8 +11,8 @@ import java.util.stream.StreamSupport;
 import javax.annotation.PostConstruct;
 
 import boot.project.analyze_reviews_from_amazon.entity.Review;
-import boot.project.analyze_reviews_from_amazon.service.serviceImpl.ReviewServiceImpl;
-import boot.project.analyze_reviews_from_amazon.util.FileUtils;
+import boot.project.analyze_reviews_from_amazon.service.ReviewService;
+import boot.project.analyze_reviews_from_amazon.util.FileExecutorUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
@@ -22,17 +22,18 @@ import org.springframework.stereotype.Controller;
 @Slf4j
 public class ReadFileController {
 
-    private final ReviewServiceImpl reviewService;
+    private final ReviewService reviewService;
 
-    public ReadFileController(ReviewServiceImpl reviewService) {
+    public ReadFileController(ReviewService reviewService) {
         this.reviewService = reviewService;
     }
 
     @PostConstruct
     public void readFileReviews() {
         List<Review> reviews = new ArrayList<>();
+        long readStart = System.nanoTime();
         try {
-            Reader reader = new FileReader(FileUtils.getFileFromLocalResources());
+            Reader reader = new FileReader(FileExecutorUtils.getFileFromLocalResources());
             Iterable<CSVRecord> records = CSVFormat.DEFAULT
                     .withFirstRecordAsHeader().parse(reader);
 
@@ -41,11 +42,15 @@ public class ReadFileController {
                     .collect(Collectors.toList());
 
         } catch (IOException e) {
-            log.error("Can't read file: " + e);
+            throw new RuntimeException("Can't parse file!!!", e);
         }
 
+        log.info("File parsed for {} ms", ((System.nanoTime() - readStart) / 1000000));
+
+        long saveStart = System.nanoTime();
         reviewService.saveAll(reviews);
         log.info("Review size = " + reviews.size());
+        log.info("All reviews saved to DB for {} ms", ((System.nanoTime() - saveStart) / 1000000));
     }
 
     private Review parseToReview(CSVRecord record) {
